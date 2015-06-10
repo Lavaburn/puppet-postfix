@@ -86,5 +86,15 @@ class postfix::params {
       fail("Unsupported OS family ${::osfamily}")
     }
   }
+
+  # Postgrey - sane default
+  case $::operatingsystem {
+    'Ubuntu': {
+      $postgrey_policy_service = 'inet:127.0.0.1:10023'
+    }
+    default: {
+      $postgrey_policy_service = undef
+    }
+  }
 }
 

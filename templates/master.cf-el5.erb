@@ -15,6 +15,10 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_enforce_tls=<%= @submission_smtpd_enforce_tls %>
   -o smtpd_sasl_auth_enable=<%= @submission_smtpd_sasl_auth_enable %>
   -o smtpd_client_restrictions=<%= @submission_smtpd_client_restrictions %>
+  <% if @postgrey -%>
+  # Postgrey should not be used for clients (in the case of Submission [587], these are usually authenticated already by SASL) 
+  -o smtpd_recipient_restrictions=<%= @submission_smtpd_recipient_restrictions %>
+  <% end -%>
 <% end -%>
 <% if @ssl -%>
 smtps     inet  n       -       n       -       -       smtpd

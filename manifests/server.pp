@@ -99,8 +99,8 @@ class postfix::server (
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
   # smtps should allow unauthenticated delivery (for local or relay_domains for
-  # example) so no explicit reject. smtps port 465 is non-standards compliant 
-  # anyway so no one true answer. 
+  # example) so no explicit reject. smtps port 465 is non-standards compliant
+  # anyway so no one true answer.
   $smtps_smtpd_client_restrictions = 'permit_sasl_authenticated',
   $master_services = [],
   # Other files
@@ -133,7 +133,7 @@ class postfix::server (
   $spampd_maxsize      = '512',
   # Other filters
   $postgrey                = false,
-  $postgrey_policy_service = undef,
+  $postgrey_policy_service = $::postfix::params::postgrey_policy_service,
   $clamav                  = false,
   # Parameters
   $command_directory      = $::postfix::params::command_directory,
@@ -227,6 +227,9 @@ class postfix::server (
       # When stopped, status returns zero with 1.31-1.el5
       hasstatus => false,
     }
+
+    # For submission, the recipient restrictions should be overwritten, not to include postgrey.
+    $submission_smtpd_recipient_restrictions = inline_template('<%= @smtpd_recipient_restrictions.join(",") %>')
   }
 
   # Optional ClamAV setup (using clamsmtp)
@@ -248,6 +251,5 @@ class postfix::server (
     group      => $root_group,
     postfixdir => $config_directory,
   }
-
 }
 

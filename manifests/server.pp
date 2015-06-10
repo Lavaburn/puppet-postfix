@@ -181,6 +181,12 @@ class postfix::server (
     restart   => $service_restart,
   }
 
+  # Adjust settings
+  if $postgrey {
+    # For submission, the recipient restrictions should be overwritten, not to include postgrey.
+    $submission_smtpd_recipient_restrictions = inline_template('<%= @smtpd_recipient_restrictions.join(",") %>')
+  }
+
   file { "${config_directory}/master.cf":
     content => template("postfix/master.cf${filesuffix}.erb"),
     notify  => Service['postfix'],
@@ -227,9 +233,6 @@ class postfix::server (
       # When stopped, status returns zero with 1.31-1.el5
       hasstatus => false,
     }
-
-    # For submission, the recipient restrictions should be overwritten, not to include postgrey.
-    $submission_smtpd_recipient_restrictions = inline_template('<%= @smtpd_recipient_restrictions.join(",") %>')
   }
 
   # Optional ClamAV setup (using clamsmtp)

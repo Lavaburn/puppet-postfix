@@ -508,6 +508,9 @@ mailbox_command = <%= @mailbox_command %>
 # non-UNIX accounts with "User unknown in local recipient table".
 #
 #mailbox_transport = lmtp:unix:/var/lib/imap/socket/lmtp
+<% if @mailbox_transport -%>
+mailbox_transport = <%= @mailbox_transport %>
+<% end -%>
 
 # If using the cyrus-imapd IMAP server deliver local mail to the IMAP
 # server using LMTP (Local Mail Transport Protocol), this is prefered

@@ -34,6 +34,7 @@ class postfix::server (
   $home_mailbox = false,
   $mail_spool_directory = false,
   $mailbox_command = false,
+  $mailbox_transport = false,
   $smtpd_banner = '$myhostname ESMTP $mail_name',
   $setgid_group = $::postfix::params::setgid_group,
   $mailbox_size_limit = undef,

@@ -18,6 +18,9 @@ submission inet n       -       n       -       -       smtpd
   <% if @postgrey -%>
   # Postgrey should not be used for clients (in the case of Submission [587], these are usually authenticated already by SASL) 
   -o smtpd_recipient_restrictions=<%= @submission_smtpd_recipient_restrictions %>
+  <% end -%>  
+  <% @submission_content_filter.each do |content_filter| -%>
+  -o content_filter=<%= content_filter %>
   <% end -%>
 <% end -%>
 <% if @ssl -%>

@@ -130,6 +130,7 @@ class postfix::server (
   $sa_skip_rbl_checks  = '1',
   $sa_loadplugin       = [ 'Mail::SpamAssassin::Plugin::SPF' ],
   $sa_score            = [ 'FH_DATE_PAST_20XX 0' ],
+  $sa_extra_parameters = {},
   $spampd_port         = '10026',
   $spampd_relayport    = '10027',
   $spampd_children     = '20',

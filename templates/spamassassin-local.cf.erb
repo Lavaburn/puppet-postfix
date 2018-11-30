@@ -17,6 +17,6 @@ score <%= rule %>
 <% if ! @sa_extra_parameters.empty? -%>
 # Parameters set using 'sa_extra_parameters'
 <% @sa_extra_parameters.sort_by {|key,value| key}.each do |key,value| -%>
-<%= key %> = <% if value.is_a?(Array) %><%= value.join(', ') %><% else %><%= value %><% end %>
+<%= key %> <% if value.is_a?(Array) %><%= value.join(', ') %><% else %><%= value %><% end %>
 <% end -%>
 <% end -%>

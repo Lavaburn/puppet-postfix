@@ -101,6 +101,8 @@ class postfix::server (
   # submission should only be used for authenticated delivery, so explicitly
   # reject everything else.
   $submission_smtpd_client_restrictions = 'permit_sasl_authenticated,reject',
+  # Submission does not require standard filters like postgrey, SPF checks, ...
+  $submission_smtpd_recipient_restrictions = 'reject_non_fqdn_recipient',
   # smtps should allow unauthenticated delivery (for local or relay_domains for
   # example) so no explicit reject. smtps port 465 is non-standards compliant
   # anyway so no one true answer.
@@ -184,12 +186,6 @@ class postfix::server (
     ensure    => running,
     hasstatus => true,
     restart   => $service_restart,
-  }
-
-  # Adjust settings
-  if $postgrey {
-    # For submission, the recipient restrictions should be overwritten, not to include postgrey.
-    $submission_smtpd_recipient_restrictions = inline_template('<%= @smtpd_recipient_restrictions.join(",") %>')
   }
 
   file { "${config_directory}/master.cf":
